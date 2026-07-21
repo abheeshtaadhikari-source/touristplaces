@@ -3769,4 +3769,71 @@
     padding: 0.5rem 0.85rem;
     font-size: 0.85rem;
   }
+
+  /* AI Assistant Chatbot Widget Mobile Styles */
+  .ai-widget-bubble {
+    bottom: 1.25rem;
+    right: 1.25rem;
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+
+  .bubble-icon {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+
+  .ai-chat-window {
+    width: calc(100vw - 1.5rem);
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 5rem;
+    height: 70vh;
+    max-height: calc(100vh - 6rem);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.25);
+  }
+
+  .ai-chat-header {
+    padding: 0.85rem 1rem;
+  }
+
+  .ai-avatar-glow {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.8rem;
+  }
+
+  .ai-title-name {
+    font-size: 0.9rem;
+  }
+
+  .ai-chat-messages {
+    padding: 1rem 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .message-bubble {
+    max-width: 88%;
+    padding: 0.75rem 0.95rem;
+    font-size: 0.85rem;
+  }
+
+  .ai-suggestions-grid {
+    padding: 0.6rem 0.85rem;
+  }
+
+  .suggestion-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.78rem;
+  }
+
+  .ai-chat-input-bar {
+    padding: 0.75rem 0.85rem;
+  }
+
+  .ai-chat-input {
+    padding: 0.65rem 0.85rem;
+    font-size: 0.85rem;
+  }
 }

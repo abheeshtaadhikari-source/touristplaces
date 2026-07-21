@@ -35,9 +35,11 @@ touristplaces/
 
 ## 🚀 Getting Started
 *Prerequisites*
+
 Ensure you have Node.js (v16 or higher) and npm installed on your machine.
 
 *Installation & Setup*
+
 **1. Clone the repository:**
   ```bash
   git clone [https://github.com/abheeshtaadhikari-source/touristplaces.git](https://github.com/abheeshtaadhikari-source/touristplaces.git)

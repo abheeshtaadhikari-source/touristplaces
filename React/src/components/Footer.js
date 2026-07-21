@@ -30,6 +30,7 @@ const Footer = () => {
               <li><span>Weather Forecast</span></li>
               <li><span>Route Planning</span></li>
               <li><span>Interactive AI Guide</span></li>
+              <li><span>Trip Planning</span></li>
             </ul>
           </div>
 

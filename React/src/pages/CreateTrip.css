@@ -1,0 +1,207 @@
+.create-trip-page {
+  padding: 4rem 2rem;
+  min-height: 80vh;
+  background-color: var(--background);
+  color: white;
+}
+
+.create-trip-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.create-trip-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.create-trip-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #ff6b6b, #fca048);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.create-trip-header p {
+  color: #94a3b8;
+}
+
+.create-trip-search-box {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.create-trip-search-box label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+.create-trip-search-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.create-trip-search-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+}
+
+.create-trip-search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  list-style: none;
+  padding: 0.5rem 0;
+  z-index: 20;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.create-trip-search-results li {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  color: #e2e8f0;
+  transition: background 0.2s ease;
+}
+
+.create-trip-search-results li:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.selected-place-badge {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 107, 107, 0.2);
+  color: #ff6b6b;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.selected-place-badge button {
+  background: none;
+  border: none;
+  color: inherit;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.create-trip-dates {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.create-trip-dates .form-group {
+  flex: 1;
+}
+
+.create-trip-dates label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+.create-trip-dates input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  font-size: 1rem;
+  outline: none;
+}
+
+.create-trip-submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #ff6b6b, #fca048);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.create-trip-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.create-trip-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}.create-trip-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.create-trip-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+}
+
+.selected-places-list {
+  margin-bottom: 1.5rem;
+}
+
+.selected-places-list label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+.selected-places-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.trip-name-group {
+  margin-bottom: 1.5rem;
+}
+
+.trip-name-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #e2e8f0;
+  font-weight: 500;
+}

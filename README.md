@@ -38,6 +38,7 @@ touristplaces/
 
 Ensure you have Node.js (v16 or higher) and npm installed on your machine.
 
+
 *Installation & Setup*
 
 **1. Clone the repository:**
@@ -62,4 +63,4 @@ cd touristplaces
 ---
 
 ## 🌐 Deployment
-This repository is setup for multi-directory monorepo deployment using Vercel. Pushing changes to the main branch will automatically build and deploy the updated application to production.
+This repository is setup for multi-directory monorepo deployment using Vercel. Pushing changes to the ```main``` branch will automatically build and deploy the updated application to production.

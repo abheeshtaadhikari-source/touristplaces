@@ -47,9 +47,11 @@ app.get('/', (req, res) => {
   res.send('Tourist Places Explorer API is running');
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  seedDatabase();
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+    seedDatabase();
+  });
+}
 
 module.exports = app;

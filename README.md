@@ -37,7 +37,7 @@ touristplaces/
 *Prerequisites*
 
 Ensure you have Node.js (v16 or higher) and npm installed on your machine.
-
+--
 
 *Installation & Setup*
 

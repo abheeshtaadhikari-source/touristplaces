@@ -4,21 +4,27 @@
     {
       "src": "React/package.json",
       "use": "@vercel/static-build",
-      "config": { "distDir": "build" }
+      "config": {
+        "distDir": "build"
+      }
     },
     {
-      "src": "Express/index.js",
+      "src": "Express/app.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "Express/index.js"
+      "dest": "Express/app.js"
+    },
+    {
+      "src": "/(.*\\.[a-zA-Z0-9]+)$",
+      "dest": "React/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "React/$1"
+      "dest": "React/index.html"
     }
   ]
 }

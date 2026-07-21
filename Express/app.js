@@ -11,11 +11,19 @@ const itineraryRoutes = require('./routes/itineraryRoutes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB
-connectDB();
-
 // Middleware
 app.use(express.json());
+
+// Ensure MongoDB is connected before handling any requests (Crucial for Vercel Serverless)
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error('Database Connection Failed:', err.message);
+    res.status(500).json({ message: 'Database connection failed', error: err.message });
+  }
+});
 
 // Seeding function
 const seedDatabase = async () => {

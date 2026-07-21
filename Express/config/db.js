@@ -8,7 +8,11 @@ const connectDB = async () => {
   }
 
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI);
+    const opts = {
+      bufferCommands: false,
+      serverSelectionTimeoutMS: 5000 // fail fast if connection fails
+    };
+    const conn = await mongoose.connect(process.env.MONGO_URI, opts);
     cachedConnection = conn;
     console.log(`MongoDB Connected: ${conn.connection.host}`);
     return conn;

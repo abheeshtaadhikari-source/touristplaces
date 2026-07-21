@@ -392,12 +392,39 @@
 }
 
 @media (max-width: 768px) {
+  .trips-page {
+    padding: 90px 4% 40px;
+  }
   .trips-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: 1rem;
   }
   .create-trip-btn-main {
     width: 100%;
     justify-content: center;
+  }
+  .page-title {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .trips-page {
+    padding: 80px 1rem 30px;
+  }
+  .trips-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .trip-summary-card {
+    padding: 1.25rem;
+  }
+  .trip-card-title {
+    font-size: 1.3rem;
+  }
+  .modal-content {
+    width: 94%;
+    padding: 1.25rem;
   }
 }

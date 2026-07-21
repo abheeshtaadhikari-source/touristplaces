@@ -205,3 +205,27 @@
   color: #e2e8f0;
   font-weight: 500;
 }
+
+/* Responsive Media Queries */
+@media (max-width: 640px) {
+  .create-trip-page {
+    padding: 2rem 1rem;
+  }
+  .create-trip-container {
+    padding: 1.5rem 1rem;
+    border-radius: 12px;
+  }
+  .create-trip-header h1 {
+    font-size: 1.6rem;
+  }
+  .create-trip-dates {
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .selected-place-badge {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+

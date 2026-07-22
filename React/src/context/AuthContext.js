@@ -12,6 +12,13 @@ export const AuthProvider = ({ children }) => {
     const loadUser = async () => {
       if (token) {
         localStorage.setItem('token', token);
+        
+        // If user state is already present (e.g. from fresh login/signup), skip fetch
+        if (user) {
+          setLoading(false);
+          return;
+        }
+
         try {
           const res = await fetch('/api/auth/me', {
             headers: {
@@ -22,6 +29,7 @@ export const AuthProvider = ({ children }) => {
           if (res.ok) {
             setUser(data);
           } else {
+            console.warn('Session verification failed:', data.message || 'Unknown error');
             // Token expired/invalid
             setToken('');
             localStorage.removeItem('token');
@@ -39,7 +47,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     loadUser();
-  }, [token]);
+  }, [token, user]);
 
   const login = async (email, password) => {
     const res = await fetch('/api/auth/login', {

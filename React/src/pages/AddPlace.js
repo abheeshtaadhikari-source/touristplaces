@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 const AddPlace = ({ onCancel, onSuccess }) => {
+  const { token } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     name: '',
     state: '',
@@ -43,6 +45,7 @@ const AddPlace = ({ onCancel, onSuccess }) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(formData),
     })

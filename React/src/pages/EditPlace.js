@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 const EditPlace = ({ placeId, onCancel, onSuccess }) => {
+  const { token } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     name: '',
     state: '',
@@ -76,6 +78,7 @@ const EditPlace = ({ placeId, onCancel, onSuccess }) => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(formData),
     })

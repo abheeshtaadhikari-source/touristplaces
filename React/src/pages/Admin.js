@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import PlaceCard from '../components/PlaceCard';
 import SearchBar from '../components/SearchBar';
+import { AuthContext } from '../context/AuthContext';
 
 const Admin = ({ onAddPlace, onEditPlace, onSelectPlace }) => {
+  const { token } = useContext(AuthContext);
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -99,6 +101,9 @@ const Admin = ({ onAddPlace, onEditPlace, onSelectPlace }) => {
     if (window.confirm(`Are you sure you want to delete "${name}"?`)) {
       fetch(`/api/places/${id}`, {
         method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       })
         .then((res) => {
           if (!res.ok) {

@@ -8,7 +8,8 @@ const getPlaces = async (req, res) => {
   try {
     const places = await Place.find();
     if (req.user) {
-      const wishlistSet = new Set(req.user.wishlist.map(id => id.toString()));
+      const wishlist = req.user.wishlist || [];
+      const wishlistSet = new Set(wishlist.map(id => id.toString()));
       const placesWithWishlist = places.map(place => {
         const placeObj = place.toObject();
         placeObj.isWishlisted = wishlistSet.has(place._id.toString());
@@ -40,7 +41,8 @@ const searchPlaces = async (req, res) => {
       }
     });
     if (req.user) {
-      const wishlistSet = new Set(req.user.wishlist.map(id => id.toString()));
+      const wishlist = req.user.wishlist || [];
+      const wishlistSet = new Set(wishlist.map(id => id.toString()));
       const placesWithWishlist = places.map(place => {
         const placeObj = place.toObject();
         placeObj.isWishlisted = wishlistSet.has(place._id.toString());
@@ -70,7 +72,8 @@ const getPlaceById = async (req, res) => {
     }
     const placeObj = place.toObject();
     if (req.user) {
-      placeObj.isWishlisted = req.user.wishlist.map(id => id.toString()).includes(place._id.toString());
+      const wishlist = req.user.wishlist || [];
+      placeObj.isWishlisted = wishlist.map(id => id.toString()).includes(place._id.toString());
     } else {
       placeObj.isWishlisted = false;
     }
@@ -175,6 +178,7 @@ const toggleWishlist = async (req, res) => {
     }
     
     const user = req.user;
+    user.wishlist = user.wishlist || [];
     const index = user.wishlist.indexOf(place._id);
     let isWishlistedNow = false;
     

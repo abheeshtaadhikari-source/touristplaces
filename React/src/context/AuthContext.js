@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useRef } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
 
@@ -6,7 +6,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [loading, setLoading] = useState(true);
-  const skipMeFetchRef = useRef(false);
 
   // Auto-login verify session if token exists
   useEffect(() => {
@@ -14,9 +13,8 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         localStorage.setItem('token', token);
         
-        // If we just logged in or signed up, skip the redundant /me fetch
-        if (skipMeFetchRef.current) {
-          skipMeFetchRef.current = false; // reset ref
+        // If user state is already present (e.g. from fresh login/signup), skip fetch
+        if (user) {
           setLoading(false);
           return;
         }
@@ -27,19 +25,24 @@ export const AuthProvider = ({ children }) => {
               'Authorization': `Bearer ${token}`
             }
           });
-          const data = await res.json();
+          
           if (res.ok) {
+            const data = await res.json();
             setUser(data);
           } else {
-            console.warn('Session verification failed:', data.message || 'Unknown error');
-            // Token expired/invalid
-            setToken('');
-            localStorage.removeItem('token');
+            // Only log out if the token is explicitly invalid/expired (401)
+            if (res.status === 401) {
+              console.warn('Session expired or invalid. Logging out.');
+              setToken('');
+              localStorage.removeItem('token');
+            } else {
+              const data = await res.json().catch(() => ({}));
+              console.error('Server error during session verification:', data.message || res.statusText);
+            }
           }
         } catch (err) {
           console.error('Session load error:', err);
-          setToken('');
-          localStorage.removeItem('token');
+          // Do not log out on network/CORS issues
         }
       } else {
         localStorage.removeItem('token');
@@ -49,7 +52,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     loadUser();
-  }, [token]);
+  }, [token, user]);
 
   const login = async (email, password) => {
     const res = await fetch('/api/auth/login', {

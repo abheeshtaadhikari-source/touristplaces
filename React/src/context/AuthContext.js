@@ -64,7 +64,6 @@ export const AuthProvider = ({ children }) => {
     });
     const data = await res.json();
     if (res.ok) {
-      skipMeFetchRef.current = true;
       setToken(data.token);
       setUser(data.user);
       return { success: true };
@@ -83,7 +82,6 @@ export const AuthProvider = ({ children }) => {
     });
     const data = await res.json();
     if (res.ok) {
-      skipMeFetchRef.current = true;
       setToken(data.token);
       setUser(data.user);
       return { success: true };

@@ -10,7 +10,10 @@
     },
     {
       "src": "Express/app.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "maxDuration": 30
+      }
     }
   ],
   "routes": [
@@ -26,10 +29,5 @@
       "src": "/(.*)",
       "dest": "React/index.html"
     }
-  ],
-  "functions": {
-    "Express/app.js": {
-      "maxDuration": 30
-    }
-  }
+  ]
 }

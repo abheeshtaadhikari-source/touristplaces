@@ -17,8 +17,10 @@ const connectDB = async () => {
       maxPoolSize: 10,
       minPoolSize: 1,
     };
-    const mongoUri = process.env.MONGO_URI || 'mongodb://abheeshtaadhikari_db_user:mDoHECrSLZEbqiiA@ac-ki79esg-shard-00-00.dcdavg1.mongodb.net:27017,ac-ki79esg-shard-00-01.dcdavg1.mongodb.net:27017,ac-ki79esg-shard-00-02.dcdavg1.mongodb.net:27017/?ssl=true&replicaSet=atlas-sfxc1m-shard-0&authSource=admin&appName=Cluster0&compressors=zlib';
-    const conn = await mongoose.connect(mongoUri, opts);
+    if (!process.env.MONGO_URI) {
+      throw new Error('MONGO_URI is missing from environment variables. Please add MONGO_URI in your Vercel Project Settings -> Environment Variables.');
+    }
+    const conn = await mongoose.connect(process.env.MONGO_URI, opts);
     cachedConnection = conn;
     console.log(`MongoDB Connected: ${conn.connection.host}`);
     return conn;

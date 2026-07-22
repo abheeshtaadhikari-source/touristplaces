@@ -599,27 +599,15 @@ const PlaceDetails = () => {
                 <div style={{ display: 'flex', gap: '10px' }}>
                   <button
                     onClick={openTripModal}
-                    className="place-details-trip-btn"
+                    className="back-btn"
                     aria-label="Add to Trip"
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.1)',
-                      border: '1px solid rgba(255, 255, 255, 0.2)',
-                      borderRadius: '50px',
-                      padding: '8px 16px',
-                      color: 'white',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      cursor: 'pointer',
-                      backdropFilter: 'blur(10px)',
-                      transition: 'all 0.3s ease'
-                    }}
+                    style={{ margin: 0 }}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{marginRight: '8px', width: '18px', height: '18px'}}>
                       <line x1="12" y1="5" x2="12" y2="19"></line>
                       <line x1="5" y1="12" x2="19" y2="12"></line>
                     </svg>
-                    Add to Trip
+                    Add Trip
                   </button>
                   <button 
                     onClick={handleWishlistToggle}
@@ -875,26 +863,33 @@ const PlaceDetails = () => {
       {isTripModalOpen && (
         <div className="image-modal-overlay" onClick={() => setIsTripModalOpen(false)}>
           <div 
-            className="image-modal-content" 
+            className="trip-builder-modal-box" 
             style={{ 
-              background: 'rgba(20, 20, 25, 0.95)', 
-              padding: '2rem', 
-              borderRadius: '15px', 
-              width: '400px', 
+              background: '#ffffff', 
+              padding: '2.5rem', 
+              borderRadius: '16px', 
+              width: '450px', 
               maxWidth: '90%', 
-              maxHeight: '80vh', 
+              maxHeight: '85vh', 
               overflowY: 'auto',
-              border: '1px solid rgba(255, 255, 255, 0.1)' 
+              border: '1px solid #e2e8f0',
+              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '20px',
+              color: '#1e293b'
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-              <h3 style={{ color: 'white', margin: 0 }}>Add to Trip</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #f1f5f9', paddingBottom: '15px' }}>
+              <h3 style={{ color: '#0f172a', margin: 0, fontSize: '1.4rem', fontWeight: '700' }}>Add to Trip</h3>
               <button 
                 onClick={() => setIsTripModalOpen(false)}
-                style={{ background: 'transparent', border: 'none', color: 'white', cursor: 'pointer' }}
+                style={{ background: 'transparent', border: 'none', color: '#64748b', cursor: 'pointer', display: 'flex', alignItems: 'center', transition: 'color 0.2s' }}
+                onMouseOver={(e) => e.currentTarget.style.color = '#ef4444'}
+                onMouseOut={(e) => e.currentTarget.style.color = '#64748b'}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
@@ -902,102 +897,172 @@ const PlaceDetails = () => {
             </div>
 
             {loadingTrips ? (
-              <div style={{ color: 'white', textAlign: 'center' }}>Loading trips...</div>
+              <div style={{ color: '#64748b', textAlign: 'center', padding: '2rem' }}>Loading trips...</div>
             ) : (
               <>
-                <div style={{ marginBottom: '2rem' }}>
-                  <h4 style={{ color: '#aaa', fontSize: '0.9rem', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Your Planned Trips</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                  <h4 style={{ color: '#475569', fontSize: '0.85rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 5px 0' }}>Your Planned Trips</h4>
                   {userTrips.length === 0 ? (
-                    <p style={{ color: '#888', fontSize: '0.9rem' }}>No trips planned yet.</p>
+                    <div style={{ 
+                      color: '#94a3b8', 
+                      fontSize: '0.95rem', 
+                      background: '#f8fafc', 
+                      padding: '1.5rem', 
+                      borderRadius: '8px', 
+                      border: '1px dashed #cbd5e1', 
+                      textAlign: 'center' 
+                    }}>
+                      No trips planned yet.
+                    </div>
                   ) : (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                       {userTrips.map(trip => (
                         <button
                           key={trip._id}
                           onClick={() => handleAddToExistingTrip(trip._id)}
                           style={{
-                            background: 'rgba(255, 255, 255, 0.05)',
-                            border: '1px solid rgba(255, 255, 255, 0.1)',
-                            padding: '1rem',
-                            borderRadius: '8px',
-                            color: 'white',
+                            background: '#ffffff',
+                            border: '1px solid #e2e8f0',
+                            padding: '1.2rem',
+                            borderRadius: '12px',
+                            color: '#1e293b',
                             textAlign: 'left',
                             cursor: 'pointer',
-                            transition: 'all 0.2s',
+                            transition: 'all 0.2s ease',
                             display: 'flex',
                             justifyContent: 'space-between',
-                            alignItems: 'center'
+                            alignItems: 'center',
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.02)'
                           }}
-                          onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
-                          onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'}
+                          onMouseOver={(e) => {
+                            e.currentTarget.style.borderColor = '#2563eb';
+                            e.currentTarget.style.background = '#f8fafc';
+                            e.currentTarget.style.transform = 'translateY(-1px)';
+                            e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.05)';
+                          }}
+                          onMouseOut={(e) => {
+                            e.currentTarget.style.borderColor = '#e2e8f0';
+                            e.currentTarget.style.background = '#ffffff';
+                            e.currentTarget.style.transform = 'none';
+                            e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.02)';
+                          }}
                         >
                           <div>
-                            <div style={{ fontWeight: 'bold' }}>{trip.title}</div>
-                            <div style={{ fontSize: '0.8rem', color: '#aaa' }}>
+                            <div style={{ fontWeight: '600', fontSize: '1rem', color: '#0f172a' }}>{trip.title}</div>
+                            <div style={{ fontSize: '0.8rem', color: '#64748b', marginTop: '4px' }}>
                               {new Date(trip.startDate).toLocaleDateString()} - {new Date(trip.endDate).toLocaleDateString()}
                             </div>
                           </div>
-                          <span style={{ fontSize: '1.2rem' }}>+</span>
+                          <span style={{ 
+                            fontSize: '1rem', 
+                            fontWeight: 'bold', 
+                            color: '#2563eb', 
+                            background: '#eff6ff', 
+                            width: '28px', 
+                            height: '28px', 
+                            borderRadius: '50%', 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            justifyContent: 'center',
+                            transition: 'all 0.2s'
+                          }}>+</span>
                         </button>
                       ))}
                     </div>
                   )}
                 </div>
 
-                <hr style={{ border: 'none', borderTop: '1px solid rgba(255,255,255,0.1)', margin: '1.5rem 0' }} />
+                <div style={{ height: '1px', background: '#e2e8f0', margin: '1rem 0' }} />
 
                 {!isCreatingNewTrip ? (
                   <button
                     onClick={() => setIsCreatingNewTrip(true)}
                     style={{
                       width: '100%',
-                      padding: '1rem',
+                      padding: '12px',
                       background: '#2563eb',
-                      color: 'white',
+                      color: '#ffffff',
                       border: 'none',
                       borderRadius: '8px',
                       cursor: 'pointer',
-                      fontWeight: 'bold',
-                      fontSize: '1rem'
+                      fontWeight: '600',
+                      fontSize: '0.95rem',
+                      transition: 'background-color 0.2s ease',
+                      boxShadow: '0 4px 10px rgba(37, 99, 235, 0.2)'
                     }}
+                    onMouseOver={(e) => e.currentTarget.style.background = '#1d4ed8'}
+                    onMouseOut={(e) => e.currentTarget.style.background = '#2563eb'}
                   >
                     + Create New Trip
                   </button>
                 ) : (
                   <form onSubmit={handleCreateAndAddTrip} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                    <h4 style={{ color: 'white', margin: 0 }}>Create Trip</h4>
+                    <h4 style={{ color: '#0f172a', margin: 0, fontSize: '1.1rem', fontWeight: '700' }}>Create New Trip</h4>
                     
                     <div>
-                      <label style={{ display: 'block', color: '#aaa', fontSize: '0.8rem', marginBottom: '5px' }}>Trip Title</label>
+                      <label style={{ display: 'block', color: '#475569', fontSize: '0.85rem', fontWeight: '600', marginBottom: '6px' }}>Trip Title</label>
                       <input 
                         type="text" 
                         required
                         value={newTripData.title}
                         onChange={e => setNewTripData({...newTripData, title: e.target.value})}
-                        style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #444', background: '#333', color: 'white', boxSizing: 'border-box' }}
+                        style={{ 
+                          width: '100%', 
+                          padding: '10px 12px', 
+                          borderRadius: '6px', 
+                          border: '1px solid #cbd5e1', 
+                          background: '#ffffff', 
+                          color: '#1e293b', 
+                          boxSizing: 'border-box',
+                          fontSize: '0.95rem',
+                          outline: 'none',
+                          transition: 'border-color 0.2s'
+                        }}
+                        onFocus={(e) => e.target.style.borderColor = '#2563eb'}
+                        onBlur={(e) => e.target.style.borderColor = '#cbd5e1'}
                         placeholder="e.g. Summer Vacation"
                       />
                     </div>
                     
-                    <div style={{ display: 'flex', gap: '10px' }}>
+                    <div style={{ display: 'flex', gap: '12px' }}>
                       <div style={{ flex: 1 }}>
-                        <label style={{ display: 'block', color: '#aaa', fontSize: '0.8rem', marginBottom: '5px' }}>Start Date</label>
+                        <label style={{ display: 'block', color: '#475569', fontSize: '0.85rem', fontWeight: '600', marginBottom: '6px' }}>Start Date</label>
                         <input 
                           type="date" 
                           required
                           value={newTripData.startDate}
                           onChange={e => setNewTripData({...newTripData, startDate: e.target.value})}
-                          style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #444', background: '#333', color: 'white', boxSizing: 'border-box', colorScheme: 'dark' }}
+                          style={{ 
+                            width: '100%', 
+                            padding: '10px 12px', 
+                            borderRadius: '6px', 
+                            border: '1px solid #cbd5e1', 
+                            background: '#ffffff', 
+                            color: '#1e293b', 
+                            boxSizing: 'border-box',
+                            fontSize: '0.95rem',
+                            outline: 'none'
+                          }}
                         />
                       </div>
                       <div style={{ flex: 1 }}>
-                        <label style={{ display: 'block', color: '#aaa', fontSize: '0.8rem', marginBottom: '5px' }}>End Date</label>
+                        <label style={{ display: 'block', color: '#475569', fontSize: '0.85rem', fontWeight: '600', marginBottom: '6px' }}>End Date</label>
                         <input 
                           type="date" 
                           required
                           value={newTripData.endDate}
                           onChange={e => setNewTripData({...newTripData, endDate: e.target.value})}
-                          style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #444', background: '#333', color: 'white', boxSizing: 'border-box', colorScheme: 'dark' }}
+                          style={{ 
+                            width: '100%', 
+                            padding: '10px 12px', 
+                            borderRadius: '6px', 
+                            border: '1px solid #cbd5e1', 
+                            background: '#ffffff', 
+                            color: '#1e293b', 
+                            boxSizing: 'border-box',
+                            fontSize: '0.95rem',
+                            outline: 'none'
+                          }}
                         />
                       </div>
                     </div>
@@ -1006,13 +1071,45 @@ const PlaceDetails = () => {
                       <button 
                         type="button" 
                         onClick={() => setIsCreatingNewTrip(false)}
-                        style={{ flex: 1, padding: '10px', background: 'transparent', border: '1px solid #444', color: 'white', borderRadius: '4px', cursor: 'pointer' }}
+                        style={{ 
+                          flex: 1, 
+                          padding: '10px', 
+                          background: 'transparent', 
+                          border: '1px solid #cbd5e1', 
+                          color: '#475569', 
+                          borderRadius: '6px', 
+                          cursor: 'pointer',
+                          fontWeight: '600',
+                          fontSize: '0.9rem',
+                          transition: 'all 0.2s'
+                        }}
+                        onMouseOver={(e) => {
+                          e.currentTarget.style.background = '#f1f5f9';
+                          e.currentTarget.style.color = '#0f172a';
+                        }}
+                        onMouseOut={(e) => {
+                          e.currentTarget.style.background = 'transparent';
+                          e.currentTarget.style.color = '#475569';
+                        }}
                       >
                         Cancel
                       </button>
                       <button 
                         type="submit"
-                        style={{ flex: 2, padding: '10px', background: '#2563eb', border: 'none', color: 'white', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
+                        style={{ 
+                          flex: 2, 
+                          padding: '10px', 
+                          background: '#2563eb', 
+                          border: 'none', 
+                          color: '#ffffff', 
+                          borderRadius: '6px', 
+                          cursor: 'pointer', 
+                          fontWeight: '600',
+                          fontSize: '0.9rem',
+                          transition: 'background-color 0.2s'
+                        }}
+                        onMouseOver={(e) => e.currentTarget.style.background = '#1d4ed8'}
+                        onMouseOut={(e) => e.currentTarget.style.background = '#2563eb'}
                       >
                         Save & Add Place
                       </button>

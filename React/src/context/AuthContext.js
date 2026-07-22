@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useRef } from 'react';
 
 export const AuthContext = createContext();
 
@@ -6,6 +6,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [loading, setLoading] = useState(true);
+  const skipMeFetchRef = useRef(false);
 
   // Auto-login verify session if token exists
   useEffect(() => {
@@ -13,8 +14,9 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         localStorage.setItem('token', token);
         
-        // If user state is already present (e.g. from fresh login/signup), skip fetch
-        if (user) {
+        // If we just logged in or signed up, skip the redundant /me fetch
+        if (skipMeFetchRef.current) {
+          skipMeFetchRef.current = false; // reset ref
           setLoading(false);
           return;
         }
@@ -47,7 +49,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     loadUser();
-  }, [token, user]);
+  }, [token]);
 
   const login = async (email, password) => {
     const res = await fetch('/api/auth/login', {
@@ -59,6 +61,7 @@ export const AuthProvider = ({ children }) => {
     });
     const data = await res.json();
     if (res.ok) {
+      skipMeFetchRef.current = true;
       setToken(data.token);
       setUser(data.user);
       return { success: true };
@@ -77,6 +80,7 @@ export const AuthProvider = ({ children }) => {
     });
     const data = await res.json();
     if (res.ok) {
+      skipMeFetchRef.current = true;
       setToken(data.token);
       setUser(data.user);
       return { success: true };

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 let cachedConnection = null;
 
 const connectDB = async () => {
+  // Return cached connection if it's alive
   if (cachedConnection && mongoose.connection.readyState === 1) {
     return cachedConnection;
   }
@@ -10,21 +11,13 @@ const connectDB = async () => {
   try {
     const opts = {
       bufferCommands: false,
-      serverSelectionTimeoutMS: 5000 // fail fast if connection fails
+      serverSelectionTimeoutMS: 30000,  // 30s for Vercel cold-start
+      socketTimeoutMS: 45000,           // 45s socket timeout
+      connectTimeoutMS: 30000,          // 30s connection timeout
+      maxPoolSize: 10,
+      minPoolSize: 1,
     };
     const conn = await mongoose.connect(process.env.MONGO_URI, opts);
-    
-    // Ensure connection is fully established (readyState === 1)
-    if (conn.connection.readyState !== 1) {
-      await new Promise((resolve, reject) => {
-        const timeout = setTimeout(() => reject(new Error('MongoDB connection handshake timed out')), 5000);
-        conn.connection.once('connected', () => {
-          clearTimeout(timeout);
-          resolve();
-        });
-      });
-    }
-
     cachedConnection = conn;
     console.log(`MongoDB Connected: ${conn.connection.host}`);
     return conn;

@@ -26,5 +26,10 @@
       "src": "/(.*)",
       "dest": "React/index.html"
     }
-  ]
+  ],
+  "functions": {
+    "Express/app.js": {
+      "maxDuration": 30
+    }
+  }
 }

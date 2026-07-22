@@ -37,7 +37,7 @@ const Navbar = () => {
             </NavLink>
           </li>
           
-          {user?.isAdmin && (
+          {user && (
             <li>
               <NavLink
                 to="/admin"

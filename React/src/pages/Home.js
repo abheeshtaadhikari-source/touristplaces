@@ -44,12 +44,13 @@ const Home = ({ onSelectPlace }) => {
   const [recentlyViewedIds, setRecentlyViewedIds] = useState([]);
   useEffect(() => {
     try {
-      const history = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+      const storageKey = user ? `recentlyViewed_${user._id || user.id}` : 'recentlyViewed';
+      const history = JSON.parse(localStorage.getItem(storageKey) || '[]');
       setRecentlyViewedIds(history);
     } catch (err) {
       console.error('Error reading recentlyViewed from localStorage:', err);
     }
-  }, []);
+  }, [user]);
 
   // Map the ID list to actual place objects in the exact order of recentlyViewedIds
   const recentlyViewedPlaces = useMemo(() => {

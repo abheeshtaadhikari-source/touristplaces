@@ -321,17 +321,18 @@ const PlaceDetails = () => {
   useEffect(() => {
     if (place) {
       try {
-        const history = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+        const storageKey = user ? `recentlyViewed_${user._id || user.id}` : 'recentlyViewed';
+        const history = JSON.parse(localStorage.getItem(storageKey) || '[]');
         const placeId = place._id || place.id;
         const filteredHistory = history.filter(id => id !== placeId);
         filteredHistory.unshift(placeId);
         const updatedHistory = filteredHistory.slice(0, 10);
-        localStorage.setItem('recentlyViewed', JSON.stringify(updatedHistory));
+        localStorage.setItem(storageKey, JSON.stringify(updatedHistory));
       } catch (err) {
         console.error('Error writing to recentlyViewed localStorage:', err);
       }
     }
-  }, [place]);
+  }, [place, user]);
 
   const loadSearchHistory = () => {
     try {

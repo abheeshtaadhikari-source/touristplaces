@@ -82,7 +82,7 @@ exports.updateItinerary = async (req, res) => {
     const updatedItinerary = await Itinerary.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }
+      { returnDocument: 'after' }
     ).populate('places');
 
     res.status(200).json(updatedItinerary);

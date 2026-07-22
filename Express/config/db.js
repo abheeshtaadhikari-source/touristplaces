@@ -1,34 +1,44 @@
 const mongoose = require('mongoose');
 
-let cachedConnection = null;
+// Global caching for Vercel serverless functions
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
 
 const connectDB = async () => {
-  // Return cached connection if it's alive
-  if (cachedConnection && mongoose.connection.readyState === 1) {
-    return cachedConnection;
+  if (cached.conn && mongoose.connection.readyState === 1) {
+    return cached.conn;
+  }
+
+  if (!process.env.MONGO_URI) {
+    throw new Error('MONGO_URI environment variable is missing. Please set MONGO_URI in your Vercel Project Settings.');
+  }
+
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: true,
+      serverSelectionTimeoutMS: 15000,
+    };
+
+    cached.promise = mongoose.connect(process.env.MONGO_URI, opts).then((mongooseInstance) => {
+      console.log('MongoDB Connected Successfully');
+      return mongooseInstance;
+    }).catch((err) => {
+      cached.promise = null;
+      throw err;
+    });
   }
 
   try {
-    const opts = {
-      bufferCommands: false,
-      serverSelectionTimeoutMS: 30000,  // 30s for Vercel cold-start
-      socketTimeoutMS: 45000,           // 45s socket timeout
-      connectTimeoutMS: 30000,          // 30s connection timeout
-      maxPoolSize: 10,
-      minPoolSize: 1,
-    };
-    if (!process.env.MONGO_URI) {
-      throw new Error('MONGO_URI is missing from environment variables. Please add MONGO_URI in your Vercel Project Settings -> Environment Variables.');
-    }
-    const conn = await mongoose.connect(process.env.MONGO_URI, opts);
-    cachedConnection = conn;
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-    return conn;
-  } catch (error) {
-    console.error(`Error connecting to MongoDB: ${error.message}`);
-    cachedConnection = null; // Reset cache on failure
-    throw error;
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    throw e;
   }
+
+  return cached.conn;
 };
 
 module.exports = connectDB;

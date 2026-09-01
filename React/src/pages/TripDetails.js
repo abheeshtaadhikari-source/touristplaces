@@ -21,6 +21,13 @@ const TripDetails = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [isBookModalOpen, setIsBookModalOpen] = useState(false);
 
+  const getMakeMyTripUrl = (place) => {
+    // Use city name if available, else fall back to place name; append state for clarity
+    const destination = encodeURIComponent((place.city || place.name).trim());
+    // MakeMyTrip hotel search URL
+    return `https://www.makemytrip.com/hotels/hotel-listing/?checkin=&checkout=&city=${destination}&country=IN`;
+  };
+
   const handleBookNow = () => {
     if (!trip || !trip.places || trip.places.length === 0) {
       alert("No destinations added to this trip yet!");
@@ -28,9 +35,7 @@ const TripDetails = () => {
     }
     
     if (trip.places.length === 1) {
-      const place = trip.places[0];
-      const query = encodeURIComponent(`makemytrip hotels flights in ${place.name} ${place.state || ''}`);
-      window.open(`https://www.google.com/search?q=${query}`, '_blank');
+      window.open(getMakeMyTripUrl(trip.places[0]), '_blank');
     } else {
       setIsBookModalOpen(true);
     }
@@ -405,8 +410,7 @@ const TripDetails = () => {
                   key={place._id || place.id}
                   className="book-dest-item-btn"
                   onClick={() => {
-                    const query = encodeURIComponent(`makemytrip hotels flights in ${place.name} ${place.state || ''}`);
-                    window.open(`https://www.google.com/search?q=${query}`, '_blank');
+                    window.open(getMakeMyTripUrl(place), '_blank');
                     setIsBookModalOpen(false);
                   }}
                 >

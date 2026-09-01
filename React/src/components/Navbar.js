@@ -7,6 +7,16 @@ const Navbar = () => {
   const { user } = useContext(AuthContext);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  const openDrawer = () => {
+    setIsDrawerOpen(true);
+    document.body.classList.add('drawer-open');
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+    document.body.classList.remove('drawer-open');
+  };
+
   const getInitials = (name) => {
     if (!name) return 'U';
     return name
@@ -54,7 +64,7 @@ const Navbar = () => {
             <li className="user-profile-nav">
               <button 
                 className="nav-profile-btn" 
-                onClick={() => setIsDrawerOpen(true)}
+                onClick={openDrawer}
                 aria-label="Toggle profile drawer"
               >
                 {getInitials(user.name)}
@@ -66,7 +76,7 @@ const Navbar = () => {
           )}
         </ul>
       </div>
-      <ProfileDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
+      <ProfileDrawer isOpen={isDrawerOpen} onClose={closeDrawer} />
     </nav>
   );
 };

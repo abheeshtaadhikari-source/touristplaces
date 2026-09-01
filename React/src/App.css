@@ -2616,8 +2616,12 @@
    AI Assistant Chatbot Widget Styles
    ========================================================================== */
 .ai-widget-root {
-  position: relative;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 2100;
   font-family: var(--font-sans);
+  pointer-events: none; /* Let clicks pass through the root wrapper */
 }
 
 .ai-widget-bubble {
@@ -2635,9 +2639,10 @@
   justify-content: center;
   color: #ffffff;
   cursor: pointer;
-  z-index: 1000;
+  z-index: 2100;
   transition: all var(--transition-normal);
   padding: 0;
+  pointer-events: auto; /* Re-enable pointer events on the button itself */
 }
 
 .ai-widget-bubble:hover {
@@ -2673,10 +2678,11 @@
   box-shadow: 6px 6px 20px rgba(15, 23, 42, 0.12), 0 8px 30px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
-  z-index: 999;
+  z-index: 2099;
   overflow: hidden;
   animation: aiChatOpen 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   transform-origin: bottom right;
+  pointer-events: auto;
 }
 
 @keyframes aiChatOpen {

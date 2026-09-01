@@ -67,19 +67,13 @@ const ProfileDrawer = ({ isOpen, onClose }) => {
   return (
     <>
       {/* Backdrop overlay */}
-      <div className={`drawer-overlay ${isOpen ? 'active' : ''}`} onClick={onClose}></div>
+      <div className={`drawer-overlay ${isOpen ? 'active' : ''}`}></div>
 
       {/* Slide-out Drawer container */}
       <div className={`profile-drawer ${isOpen ? 'open' : ''}`}>
         {/* Header */}
         <div className="drawer-header">
           <h2 className="drawer-title">Profile window</h2>
-          <button className="drawer-close-btn" onClick={onClose} aria-label="Close Profile">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
         </div>
 
         {/* User Info Details Panel */}

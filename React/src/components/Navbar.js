@@ -17,6 +17,14 @@ const Navbar = () => {
     document.body.classList.remove('drawer-open');
   };
 
+  const toggleDrawer = () => {
+    if (isDrawerOpen) {
+      closeDrawer();
+    } else {
+      openDrawer();
+    }
+  };
+
   const getInitials = (name) => {
     if (!name) return 'U';
     return name
@@ -64,7 +72,7 @@ const Navbar = () => {
             <li className="user-profile-nav">
               <button 
                 className="nav-profile-btn" 
-                onClick={openDrawer}
+                onClick={toggleDrawer}
                 aria-label="Toggle profile drawer"
               >
                 {getInitials(user.name)}

@@ -21,11 +21,23 @@ const TripDetails = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [isBookModalOpen, setIsBookModalOpen] = useState(false);
 
-  const getMakeMyTripUrl = (place) => {
+  const formatMMDDYYYY = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return '';
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    const yyyy = date.getFullYear();
+    return `${mm}${dd}${yyyy}`;
+  };
+
+  const getMakeMyTripUrl = (place, startDate, endDate) => {
     // Use city name if available, else fall back to place name; append state for clarity
     const destination = encodeURIComponent((place.city || place.name).trim());
+    const checkin = formatMMDDYYYY(startDate);
+    const checkout = formatMMDDYYYY(endDate);
     // MakeMyTrip hotel search URL
-    return `https://www.makemytrip.com/hotels/hotel-listing/?checkin=&checkout=&city=${destination}&country=IN`;
+    return `https://www.makemytrip.com/hotels/hotel-listing/?checkin=${checkin}&checkout=${checkout}&city=${destination}&country=IN`;
   };
 
   const handleBookNow = () => {
@@ -35,7 +47,7 @@ const TripDetails = () => {
     }
     
     if (trip.places.length === 1) {
-      window.open(getMakeMyTripUrl(trip.places[0]), '_blank');
+      window.open(getMakeMyTripUrl(trip.places[0], trip.startDate, trip.endDate), '_blank');
     } else {
       setIsBookModalOpen(true);
     }
@@ -410,7 +422,7 @@ const TripDetails = () => {
                   key={place._id || place.id}
                   className="book-dest-item-btn"
                   onClick={() => {
-                    window.open(getMakeMyTripUrl(place), '_blank');
+                    window.open(getMakeMyTripUrl(place, trip.startDate, trip.endDate), '_blank');
                     setIsBookModalOpen(false);
                   }}
                 >

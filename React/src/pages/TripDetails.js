@@ -32,13 +32,12 @@ const TripDetails = () => {
   };
 
   const getMakeMyTripUrl = (place, startDate, endDate) => {
-    // Use place name for the property/area search box, and city for the city parameter
-    const searchText = encodeURIComponent(place.name.trim());
-    const city = encodeURIComponent((place.city || place.name).trim());
+    // Pass the exact place name into the city parameter to populate the "City, area or property" box
+    const destination = encodeURIComponent(place.name.trim());
     const checkin = formatMMDDYYYY(startDate);
     const checkout = formatMMDDYYYY(endDate);
     // MakeMyTrip hotel search URL
-    return `https://www.makemytrip.com/hotels/hotel-listing/?checkin=${checkin}&checkout=${checkout}&searchText=${searchText}&city=${city}&country=IN`;
+    return `https://www.makemytrip.com/hotels/hotel-listing/?checkin=${checkin}&checkout=${checkout}&city=${destination}&country=IN`;
   };
 
   const handleBookNow = () => {
